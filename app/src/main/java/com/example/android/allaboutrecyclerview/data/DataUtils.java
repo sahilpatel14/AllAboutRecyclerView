@@ -25,14 +25,14 @@ public final class DataUtils implements DataConstants {
 
     private static final String TAG = "DataUtils";
 
-    private List<Ship> ships = new ArrayList<>();
+    private static List<Ship> ships = new ArrayList<>();
 
 
     /**
      * Read json file containing ship's data and put into a list of
      * [Ship] type objects.
      */
-    List<Ship> getAllShips(@NonNull Context context){
+    public static List<Ship> getAllShips(@NonNull Context context){
 
         try {
             InputStream inputStream = context.getAssets().open(FILENAME);
@@ -72,7 +72,7 @@ public final class DataUtils implements DataConstants {
      * Returns a list of categories. In this context, it is
      * the name of movies in which that particular ship was first featured.
      */
-    Set<String> getCategories(@NonNull Context context) {
+    public static Set<String> getCategories(@NonNull Context context) {
 
         if (ships.isEmpty()) {
             getAllShips(context);
@@ -90,7 +90,7 @@ public final class DataUtils implements DataConstants {
     /**
      * Returns a random colour and returns it as an Integer.
      */
-    private int getRandomColour() {
+    private static int getRandomColour() {
         Random random = new Random();
         return Color.argb(255,random.nextInt(), random.nextInt(), random.nextInt());
     }
