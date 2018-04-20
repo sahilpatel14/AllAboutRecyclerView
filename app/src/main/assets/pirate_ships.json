@@ -1,0 +1,114 @@
+[
+  {
+    "name": "Black Pearl",
+    "captain": "Jack Sparrow",
+    "length": "165 feet",
+    "weapons": "32 cannons",
+    "type": "East Indiaman",
+    "first_appearance": "The Curse of the Black Pearl"
+  },
+  {
+    "name": "Queen Anne's Revenge",
+    "captain": "Hector Barbossa",
+    "length": "Unknown",
+    "weapons": "30 cannons, Greek Fire",
+    "type": "Frigate",
+    "first_appearance": "On Stranger Tides"
+  },
+  {
+    "name": "HMS Interceptor",
+    "captain": "James Norrington",
+    "length": "Unknown",
+    "weapons": "16 cannons, 2 swivel guns",
+    "type": "Brig",
+    "first_appearance": "The Curse of the Black Pearl"
+  },
+  {
+    "name": "Wicked Wench",
+    "captain": "Pirate Captain",
+    "length": "Unknown",
+    "weapons": "18 cannons",
+    "type": "Galleon",
+    "first_appearance": "Pirates of the Caribbean ride"
+  },
+  {
+    "name": "Dying Gull",
+    "captain": "Scrum",
+    "length": "Unknown",
+    "weapons": "1 swivel gun",
+    "type": "Sloop",
+    "first_appearance": "Dead Men Tell No Tales"
+  },
+  {
+    "name": "Empress",
+    "captain": "Sao Feng",
+    "length": "Unknown",
+    "weapons": "15 heavy iron cannons",
+    "type": "Junk",
+    "first_appearance": "At World's End"
+  },
+  {
+    "name": "Troubador",
+    "captain": "Edward Teague",
+    "length": "Unknown",
+    "weapons": "several cannons",
+    "type": "Unknown",
+    "first_appearance": "At World's End"
+  },
+  {
+    "name": "Silent Mary",
+    "captain": "Armando Salazar",
+    "length": "Unknown",
+    "weapons": "100 cannons",
+    "type": "Galleon",
+    "first_appearance": "Dead Men Tell No Tales"
+  },
+  {
+    "name": "Centurion",
+    "captain": "Eduardo Villanueva",
+    "length": "Unknown",
+    "weapons": "44 cannons",
+    "type": "Galleon",
+    "first_appearance": "At World's End"
+  },
+  {
+    "name": "Ranger",
+    "captain": "Jocard",
+    "length": "Unknown",
+    "weapons": "22 cannons",
+    "type": "Frigate",
+    "first_appearance": "At World's End"
+  },
+  {
+    "name": "Fancy",
+    "captain": "Chevalle",
+    "length": "Unknown",
+    "weapons": "16 cannons",
+    "type": "Brig",
+    "first_appearance": "At World's End"
+  },
+  {
+    "name": "Ching's Flagship",
+    "captain": "Ching",
+    "length": "Unknown",
+    "weapons": "Unknown",
+    "type": "Junk",
+    "first_appearance": "At World's End"
+  },
+  {
+    "name": "Seref",
+    "captain": "Ammand",
+    "length": "Unknown",
+    "weapons": "10 cannons",
+    "type": "Xebec",
+    "first_appearance": "At World's End"
+  },
+  {
+    "name": "Otter",
+    "captain": "Sumbhajee Angria",
+    "length": "Unknown",
+    "weapons": "8 cannons",
+    "type": "Boutre",
+    "first_appearance": "At World's End"
+  }
+]
