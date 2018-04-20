@@ -34,6 +34,8 @@ public final class DataUtils implements DataConstants {
      */
     public static List<Ship> getAllShips(@NonNull Context context){
 
+        ships.clear();
+
         try {
             InputStream inputStream = context.getAssets().open(FILENAME);
             int size = inputStream.available();
