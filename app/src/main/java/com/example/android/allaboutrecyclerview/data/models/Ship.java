@@ -6,14 +6,14 @@ package com.example.android.allaboutrecyclerview.data.models;
 
 public class Ship {
     
-    final String name;
-    final String captain;
-    final String length;
-    final String weapons;
-    final String type;
+    public final String name;
+    public final String captain;
+    public final String length;
+    public final String weapons;
+    public final String type;
     
     public final String firstAppearance;
-    final int captainsFavouriteColor;
+    public final int captainsFavouriteColor;
 
 
     public Ship(String name, String captain,
