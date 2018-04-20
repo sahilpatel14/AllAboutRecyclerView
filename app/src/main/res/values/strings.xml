@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">All About RecyclerView</string>
+    <string name="app_name">POTC</string>
+    <string name="no_ships_found">We were unable to find any ships</string>
+    <string name="brethren_court">(The pirates must have left for the Brethren court)</string>
 </resources>
