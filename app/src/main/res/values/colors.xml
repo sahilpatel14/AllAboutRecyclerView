@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- the background color for group item in ships list -->
+    <color name="group_background_colour">#e1e3e8</color>
 </resources>

@@ -20,13 +20,19 @@ import android.widget.Toast;
 
 import com.example.android.allaboutrecyclerview.data.DataUtils;
 import com.example.android.allaboutrecyclerview.data.models.Ship;
+import com.example.android.allaboutrecyclerview.data.models.ShipListRow;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Ship> ships = new ArrayList<>();
+    private List<ShipListRow> rows = new ArrayList<>();
     private ShipsAdapter adapter = new ShipsAdapter();
 
     private RecyclerView rvPirateList;
@@ -99,12 +105,13 @@ public class MainActivity extends AppCompatActivity {
     //  and update it in adapter.
     private void handleSearch(String searchQuery) {
         List<Ship> searchedShips = new ArrayList<>();
-        for (Ship ship : ships) {
-            if (Utils.isShipAssociatedWith(searchQuery, ship)){
-                searchedShips.add(ship);
+        for (ShipListRow row : rows) {
+            if (row.rowType == ShipListRow.ROW_TYPE_SHIP && Utils.isShipAssociatedWith(searchQuery, row.ship)){
+                searchedShips.add(row.ship);
             }
         }
-        adapter.setShips(searchedShips);
+
+        adapter.setRows(createRowsFromShips(searchedShips));
     }
 
     private void setupList(){
@@ -120,7 +127,10 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ships = DataUtils.getAllShips(MainActivity.this);
+
+                List<Ship> ships = DataUtils.getAllShips(MainActivity.this);
+                rows.clear();
+                rows.addAll(createRowsFromShips(ships));
 
                 // Disabling progressbar since data is available now.
                 progressBar.setVisibility(View.GONE);
@@ -136,10 +146,52 @@ public class MainActivity extends AppCompatActivity {
                     rlNoDataView.setVisibility(View.GONE);
                     rvPirateList.setVisibility(View.VISIBLE);
                     Toast.makeText(MainActivity.this,"Total Ships : "+ships.size(),Toast.LENGTH_LONG).show();
-                    adapter.setShips(ships);
+
+                    adapter.setRows(rows);
                 }
             }
         }, NETWORK_DELAY);
 
     }
+
+
+    /**
+     * Takes a list of ships as input and returns a list of rows for
+     * shipList. It normalises group names from every ship and then it sorts the
+     * whole list based on group name.
+     */
+    private List<ShipListRow> createRowsFromShips(List<Ship> ships) {
+
+        Set<String> groupNames = new HashSet<>();
+        List<ShipListRow> newRows = new ArrayList<>();
+
+        //  getting all distinct group names and storing it in a Set
+        for (Ship ship : ships) groupNames.add(ship.firstAppearance);
+
+        //  Adds all the group names to rows list
+        for (String name : groupNames) newRows.add(new ShipListRow(name));
+
+        //  Adds all ships into rows list.
+        for (Ship ship : ships) newRows.add(new ShipListRow(ship));
+
+        //  Sorts rows list based on group name in descending order.
+        Collections.sort(newRows, new Comparator<ShipListRow>() {
+            @Override
+            public int compare(ShipListRow s1, ShipListRow s2) {
+
+                String c1 = s1.rowType == ShipListRow.ROW_TYPE_GROUP ?
+                        s1.groupName :
+                        s1.ship.firstAppearance;
+
+                String c2 = s2.rowType == ShipListRow.ROW_TYPE_GROUP ?
+                        s2.groupName :
+                        s2.ship.firstAppearance;
+
+
+                return String.CASE_INSENSITIVE_ORDER.compare(c2, c1);
+            }
+        });
+        return newRows;
+    }
+
 }

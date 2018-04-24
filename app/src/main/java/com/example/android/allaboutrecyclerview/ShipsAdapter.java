@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.allaboutrecyclerview.data.models.Ship;
+import com.example.android.allaboutrecyclerview.data.models.ShipListRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,30 +21,53 @@ import java.util.List;
  * Created by sahil-mac on 20/04/18.
  */
 
-public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHolder>{
+public class ShipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private final List<Ship> ships = new ArrayList<>();
+    private final List<ShipListRow> rows = new ArrayList<>();
 
     @NonNull
     @Override
-    public ShipViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_ship, parent, false);
-        return new ShipViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View itemView = null;
+        switch (viewType) {
+            case ShipListRow.ROW_TYPE_GROUP:
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_group_name, parent, false);
+                return new GroupViewHolder(itemView);
+
+            case ShipListRow.ROW_TYPE_SHIP:
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_ship, parent, false);
+                return new ShipViewHolder(itemView);
+
+            default: return new GroupViewHolder(itemView);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShipViewHolder holder, int position) {
-        holder.onBind(ships.get(position));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        ShipListRow row = rows.get(position);
+
+        if (row.rowType == ShipListRow.ROW_TYPE_GROUP){
+            ((GroupViewHolder)holder).onBind(row.groupName);
+        } else {
+            ((ShipViewHolder)holder).onBind(row.ship);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return ships.size();
+        return rows.size();
     }
 
-    public void setShips(List<Ship> newShips) {
-        this.ships.clear();
-        this.ships.addAll(newShips);
+    @Override
+    public int getItemViewType(int position) {
+        return rows.get(position).rowType;
+    }
+
+    public void setRows(List<ShipListRow> newRows) {
+        this.rows.clear();
+        this.rows.addAll(newRows);
         notifyDataSetChanged();
     }
 
@@ -53,7 +77,7 @@ public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHold
         private TextView tvShipName;
         private TextView tvCaptainName;
 
-        public ShipViewHolder(View itemView) {
+        ShipViewHolder(View itemView) {
             super(itemView);
 
             ivShipImage = itemView.findViewById(R.id.iv_ship_image);
@@ -69,6 +93,20 @@ public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHold
             }
             tvCaptainName.setText(ship.captain);
             tvShipName.setText(ship.name);
+        }
+    }
+
+    static class GroupViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tvGroupName;
+
+        GroupViewHolder(View itemView) {
+            super(itemView);
+            this.tvGroupName = itemView.findViewById(R.id.tv_ship_type);
+        }
+
+        void onBind(String groupName) {
+            tvGroupName.setText(groupName);
         }
     }
 
