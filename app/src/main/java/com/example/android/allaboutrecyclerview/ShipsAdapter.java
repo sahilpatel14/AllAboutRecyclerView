@@ -32,11 +32,11 @@ public class ShipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         View itemView = null;
         switch (viewType) {
             case ShipListRow.ROW_TYPE_GROUP:
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_group_name, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid_group_name, parent, false);
                 return new GroupViewHolder(itemView);
 
             case ShipListRow.ROW_TYPE_SHIP:
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_ship, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid_ship, parent, false);
                 return new ShipViewHolder(itemView);
 
             default: return new GroupViewHolder(itemView);

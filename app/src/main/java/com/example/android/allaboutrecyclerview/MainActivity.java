@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -116,8 +117,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupList(){
 
-        rvPirateList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rvPirateList.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+//        rvPirateList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//        rvPirateList.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+
+                switch (rows.get(position).rowType) {
+                    case ShipListRow.ROW_TYPE_GROUP:
+                        return 2;
+                    case ShipListRow.ROW_TYPE_SHIP:
+                        return 1;
+                    default:
+                        return -1;
+                }
+            }
+        });
+        rvPirateList.setLayoutManager(layoutManager);
+        rvPirateList.addItemDecoration(new GridSpacingItemDecoration(2, 20, true));
+
         rvPirateList.setAdapter(adapter);
 
         //  Showing progress bar while the data is loading
