@@ -3,6 +3,7 @@ package com.example.android.allaboutrecyclerview;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,11 +24,18 @@ import java.util.List;
 public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHolder>{
 
     private final List<Ship> ships = new ArrayList<>();
+    private final boolean inGridLayout;
+
+    public ShipsAdapter(boolean inGridLayout) {
+        this.inGridLayout = inGridLayout;
+    }
 
     @NonNull
     @Override
     public ShipViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_ship, parent, false);
+
+        @LayoutRes int layoutId = inGridLayout ? R.layout.item_grid_ship : R.layout.item_list_ship;
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return new ShipViewHolder(itemView);
     }
 

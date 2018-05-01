@@ -8,16 +8,19 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.android.allaboutrecyclerview.common.GridSpacingItemDecoration;
 import com.example.android.allaboutrecyclerview.data.DataUtils;
 import com.example.android.allaboutrecyclerview.data.models.Ship;
 
@@ -26,8 +29,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean inGridMode = false;
+
     private List<Ship> ships = new ArrayList<>();
-    private ShipsAdapter adapter = new ShipsAdapter();
+    private ShipsAdapter adapter;
+
+    private RecyclerView.ItemDecoration listDividerItemDecoration;
+    private RecyclerView.ItemDecoration gridSpacingItemDecoration;
 
     private RecyclerView rvPirateList;
     private ProgressBar progressBar;
@@ -45,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
         rvPirateList = findViewById(R.id.rv_ship_list);
         progressBar = findViewById(R.id.progress_bar);
         rlNoDataView = findViewById(R.id.rl_no_data);
+
+        listDividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        gridSpacingItemDecoration = new GridSpacingItemDecoration(2, 25, true);
+
         setupList();
+        getData();
     }
 
     /**
@@ -92,6 +105,21 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_switch_layout:
+                inGridMode = !inGridMode;
+                setupList();
+                item.setIcon(inGridMode?
+                        R.drawable.ic_list_white_24dp:
+                        R.drawable.ic_dashboard_white_24dp);
+                return true;
+
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
 
     //  Here we handle the search query. We check if
     //  any ship name or captain name matches our query.
@@ -109,9 +137,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupList(){
 
-        rvPirateList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rvPirateList.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        adapter = new ShipsAdapter(inGridMode);
+
+        rvPirateList.removeItemDecoration(listDividerItemDecoration);
+        rvPirateList.removeItemDecoration(gridSpacingItemDecoration);
+
+        if (inGridMode) {
+            rvPirateList.setLayoutManager(new GridLayoutManager(this, 2));
+            rvPirateList.addItemDecoration(gridSpacingItemDecoration);
+        } else {
+            rvPirateList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            rvPirateList.addItemDecoration(listDividerItemDecoration);
+        }
+
         rvPirateList.setAdapter(adapter);
+        adapter.setShips(ships);
+    }
+
+    private void getData() {
 
         //  Showing progress bar while the data is loading
         progressBar.setVisibility(View.VISIBLE);
@@ -140,6 +183,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, NETWORK_DELAY);
-
     }
 }
