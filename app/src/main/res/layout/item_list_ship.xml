@@ -8,6 +8,9 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="2dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
     android:layout_height="?attr/listPreferredItemHeight">
 
     <ImageView

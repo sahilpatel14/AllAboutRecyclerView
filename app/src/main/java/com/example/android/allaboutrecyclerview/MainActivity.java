@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         rvPirateList.setAdapter(adapter);
         adapter.setShips(ships);
+        runLayoutAnimation();
     }
 
     private void getData() {
@@ -183,5 +186,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, NETWORK_DELAY);
+    }
+
+    private void runLayoutAnimation() {
+
+        LayoutAnimationController animationController =
+                AnimationUtils.loadLayoutAnimation(this,
+                        inGridMode ?
+                                R.anim.layout_animation_move_up :
+                                R.anim.layout_animation_fall_down);
+
+        rvPirateList.setLayoutAnimation(animationController);
+
     }
 }
