@@ -4,6 +4,9 @@
     <string name="brethren_court">(The pirates must have left for the Brethren court)</string>
 
     <string name="hint_search_pirates">Search pirates and ships</string>
+    <string name="ship_description_x">%1s was commandeered by world renown captain %2s. It is a magnificent %3s %4s vessel having %5s cannons to knock down any enemy ship. Black Pearl was first seen in \'%6s\'. Enough history, now get back to work.</string>
+    <string name="ship_description">Black Pearl was commandeered by world renown captain Jack Sparrow. It is a magnificent 165 feet East Indiaman vessel having 32 cannons to knock down any enemy ship. Black Pearl was first seen in \'The curse of the black pearl\'. Enough history, now get back to work.</string>
+    <string name="aye_aye_sir">Aye Aye, Sir</string>
     <string name="search">Search</string>
     <string name="switch_layout">Switch Layout</string>
 </resources>

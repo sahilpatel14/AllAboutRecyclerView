@@ -197,6 +197,5 @@ public class MainActivity extends AppCompatActivity {
                                 R.anim.layout_animation_fall_down);
 
         rvPirateList.setLayoutAnimation(animationController);
-
     }
 }
