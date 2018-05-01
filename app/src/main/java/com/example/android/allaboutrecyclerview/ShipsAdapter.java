@@ -17,6 +17,8 @@ import com.example.android.allaboutrecyclerview.data.models.Ship;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.callback.Callback;
+
 /**
  * Created by sahil-mac on 20/04/18.
  */
@@ -25,9 +27,11 @@ public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHold
 
     private final List<Ship> ships = new ArrayList<>();
     private final boolean inGridLayout;
+    private final ShipClickedCallback callback;
 
-    public ShipsAdapter(boolean inGridLayout) {
+    public ShipsAdapter(boolean inGridLayout, ShipClickedCallback callback) {
         this.inGridLayout = inGridLayout;
+        this.callback = callback;
     }
 
     @NonNull
@@ -55,7 +59,10 @@ public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHold
         notifyDataSetChanged();
     }
 
-    static class ShipViewHolder extends RecyclerView.ViewHolder {
+    //    Removing static from inner class.
+    //    https://stackoverflow.com/questions/31302341/what-difference-between-static-and-non-static-viewholder-in-recyclerview-adapter?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+    class ShipViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView ivShipImage;
         private TextView tvShipName;
@@ -67,6 +74,8 @@ public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHold
             ivShipImage = itemView.findViewById(R.id.iv_ship_image);
             tvShipName = itemView.findViewById(R.id.tv_ship_name);
             tvCaptainName = itemView.findViewById(R.id.tv_captain_name);
+
+            itemView.setOnClickListener(this);
         }
 
         void onBind(Ship ship) {
@@ -78,6 +87,15 @@ public class ShipsAdapter extends RecyclerView.Adapter<ShipsAdapter.ShipViewHold
             tvCaptainName.setText(ship.captain);
             tvShipName.setText(ship.name);
         }
+
+        @Override
+        public void onClick(View v) {
+            callback.onShipClicked(ships.get(getAdapterPosition()));
+        }
+    }
+
+    interface ShipClickedCallback {
+        void onShipClicked(Ship ship);
     }
 
 }

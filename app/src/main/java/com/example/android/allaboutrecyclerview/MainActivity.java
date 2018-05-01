@@ -29,7 +29,7 @@ import com.example.android.allaboutrecyclerview.data.models.Ship;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ShipsAdapter.ShipClickedCallback{
 
     private boolean inGridMode = false;
 
@@ -123,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onShipClicked(Ship ship) {
+
+        ShipDetailsDialog dialog = ShipDetailsDialog.newInstance(ship);
+        dialog.show(getSupportFragmentManager(),"My dialog");
+
+    }
+
     //  Here we handle the search query. We check if
     //  any ship name or captain name matches our query.
     //  if yes we create a separate list of those ships
@@ -139,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupList(){
 
-        adapter = new ShipsAdapter(inGridMode);
+        adapter = new ShipsAdapter(inGridMode, this);
 
         rvPirateList.removeItemDecoration(listDividerItemDecoration);
         rvPirateList.removeItemDecoration(gridSpacingItemDecoration);
