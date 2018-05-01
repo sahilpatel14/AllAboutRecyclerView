@@ -22,7 +22,7 @@ public class ShipDetailsDialog extends DialogFragment {
 
     private Ship ship;
 
-    public ShipDetailsDialog newInstance(Ship ship) {
+    public static ShipDetailsDialog newInstance(Ship ship) {
         ShipDetailsDialog dialog = new ShipDetailsDialog();
         dialog.ship = ship;
         return dialog;
@@ -42,8 +42,8 @@ public class ShipDetailsDialog extends DialogFragment {
         Context context = getContext();
         if (context != null && ship != null){
             String text = getContext().getString(
-                    R.string.ship_description_x,ship.name,ship.captain, ship.length, ship.type, ship.weapons, ship.firstAppearance);
-            textView.setText(text);
+                    R.string.ship_description_x,ship.name,ship.captain, ship.length, ship.type, ship.weapons,ship.name, ship.firstAppearance);
+            textView.setText(text);textView.setText(text);
         }
 
 
