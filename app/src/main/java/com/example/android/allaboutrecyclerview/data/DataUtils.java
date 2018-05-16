@@ -5,17 +5,16 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.android.allaboutrecyclerview.data.models.Ship;
+import com.example.android.allaboutrecyclerview.data.models.Contact;
+import com.example.android.allaboutrecyclerview.data.models.CreditCard;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Created by sahil-mac on 20/04/18.
@@ -25,14 +24,14 @@ public final class DataUtils implements DataConstants {
 
     private static final String TAG = "DataUtils";
 
-    private List<Ship> ships = new ArrayList<>();
+    private static List<Contact> contacts = new ArrayList<>();
 
 
     /**
-     * Read json file containing ship's data and put into a list of
-     * [Ship] type objects.
+     * Read json file containing contact data and put into a list of
+     * Contact type objects.
      */
-    List<Ship> getAllShips(@NonNull Context context){
+    public static List<Contact> getAllContacts(@NonNull Context context){
 
         try {
             InputStream inputStream = context.getAssets().open(FILENAME);
@@ -41,23 +40,30 @@ public final class DataUtils implements DataConstants {
             inputStream.read(buffer);
             inputStream.close();
 
-            String shipsString = new String(buffer, "UTF-8");
+            String contactString = new String(buffer, "UTF-8");
 
-            JSONArray shipsJson = new JSONArray(shipsString);
+            JSONArray contactsJson = new JSONArray(contactString);
 
-            for (int i = 0; i < shipsJson.length(); i++) {
+            for (int i = 0; i < contactsJson.length(); i++) {
 
-                JSONObject shipJson = shipsJson.getJSONObject(i);
+                JSONObject contactJson = contactsJson.getJSONObject(i);
 
-                ships.add(new Ship(
-                        shipJson.getString(JSON_KEY_NAME),
-                        shipJson.getString(JSON_KEY_CAPTAIN),
-                        shipJson.getString(JSON_KEY_LENGTH),
-                        shipJson.getString(JSON_KEY_WEAPONS),
-                        shipJson.getString(JSON_KEY_TYPE),
-                        shipJson.getString(JSON_KEY_FIRST_APPEARANCE),
-                        getRandomColour()));
+                Contact contact = new Contact(
+                        contactJson.getString(JSON_KEY_NAME), contactJson.getString(JSON_KEY_SURNAME),
+                        contactJson.getString(JSON_KEY_GENDER), contactJson.getString(JSON_KEY_REGION),
+                        contactJson.getInt(JSON_KEY_AGE), contactJson.getString(JSON_KEY_TITLE),
+                        contactJson.getString(JSON_KEY_PHONE), contactJson.getString(JSON_KEY_EMAIL),
+                        contactJson.getString(JSON_KEY_PASSWORD), contactJson.getString(JSON_KEY_PHOTO));
 
+                //  Setting the birthday. It's enclosed in a JsonObject
+                contact.birthday = contactJson.getJSONObject(JSON_KEY_BIRTHDAY).getString(JSON_KEY_DMY);
+
+                JSONObject creditJson = contactJson.getJSONObject(JSON_KEY_CREDIT_CARD);
+                contact.creditCard = new CreditCard(
+                        creditJson.getString(JSON_KEY_NUMBER), creditJson.getString(JSON_KEY_EXPIRATION),
+                        creditJson.getInt(JSON_KEY_PIN), creditJson.getInt(JSON_KEY_SECURITY));
+
+                contacts.add(contact);
             }
 
         }
@@ -65,32 +71,14 @@ public final class DataUtils implements DataConstants {
             Log.e(TAG, "getAllShips: ",e);
         }
 
-        return ships;
-    }
-
-    /**
-     * Returns a list of categories. In this context, it is
-     * the name of movies in which that particular ship was first featured.
-     */
-    Set<String> getCategories(@NonNull Context context) {
-
-        if (ships.isEmpty()) {
-            getAllShips(context);
-        }
-
-        Set<String> categories = new HashSet<>();
-
-        for (Ship ship : ships) {
-            categories.add(ship.firstAppearance);
-        }
-        return categories;
+        return contacts;
     }
 
 
     /**
      * Returns a random colour and returns it as an Integer.
      */
-    private int getRandomColour() {
+    private static int getRandomColour() {
         Random random = new Random();
         return Color.argb(255,random.nextInt(), random.nextInt(), random.nextInt());
     }
